@@ -1,26 +1,38 @@
-import sys
+import sys, re
 
-inpf = file("pride.txt", "r")
+class mapping(dict):
+    def __init__(self):
+        pass
+    def add(self, items, wLine):
+        for item in items:
+            if item.upper() in self:
+                self[item.upper()][0] += 1
+                self[item.upper()][1].push(wLine)
+            else:
+                r = recursiveQ()
+                r.push(wLine)
+                self[item.upper()] = [1, r]
 
-fullTxt = {}
-aLine = []
-wholeWords = []
-wordLines = {}
+class recursiveQ(list):
+    def __init__(self):
+        pass
+    def push(self, line):
+        self.append(line)
+        if len(self) > 10:
+            self.pop()
+        return self
 
-txtLine = 1
+inpf = file("query.txt", "r")
+
+m = mapping()
+wLine = 1
 for line in inpf.readlines():
-	aLine = line.split(' ')
-	for a in aLine:
-		a = a.replace('\n', '')
-		if a.upper() in fullTxt:
-			fullTxt[a.upper()] += 1
-			wordLines[a.upper()] = wordLines[a.upper()] + " %d" % txtLine
-		else:
-			fullTxt[a.upper()] = 1
-			wordLines[a.upper()] = "-> %d" % txtLine
-	txtLine += 1
-			
-for key in fullTxt.keys():
-	print key, fullTxt[key], wordLines[key]
+    matcher = re.compile("[A-z0-9]+")
+    words = matcher.findall(line)
+    m.add(words, wLine)
+    wLine += 1
 
-inpf.close()	
+for key in m.keys():
+    print "%s %s -> %s" % (key, m[key][0], m[key][1])
+
+inpf.close()
