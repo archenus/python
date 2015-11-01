@@ -17,4 +17,5 @@ a = A()
 a.add(12, 1)
 a.add(12, 2)
 a.add(13, 2)
+a.add(14, 1)
 print a
