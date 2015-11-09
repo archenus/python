@@ -1,0 +1,1 @@
+@\Python27\Lib\pydoc.py %*
